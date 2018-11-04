@@ -1,6 +1,7 @@
 #Trabalho elaborado por: Renan Pacheco e Taine Freitas
 
-from __future__ import division  
+from __future__ import division
+from scipy import interpolate  
 import numpy as np  
 from numpy import linalg 
 import matplotlib.pyplot as plt
@@ -11,9 +12,18 @@ import matplotlib.pyplot as plt
 xe1=[1872, 1890, 1900, 1920, 1940, 1950, 1960, 1970, 1980, 1991, 1996]
 ye1=[9.9, 14.3, 17.4, 30.6, 41.2, 51.9, 70.2, 93.1, 119.0, 146.2, 157.1]
 
+i=0
+for x in xe1:
+	i=i+1
+
+#print(i)
+
+'''
 plt.plot(xe1,ye1,'ro')
 plt.title('teste')
-plt.show()
+plt.show() #exercicio 1) a)
+'''
+
 
 '''
 xi=np.array([0,1,2,3],dtype='double')
