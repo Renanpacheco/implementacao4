@@ -8,8 +8,12 @@ import matplotlib.pyplot as plt
 #from simpy import *
 #init_printing()
 #x, y= simbols('x y')
-xe1=np.array([1872, 1890, 1900, 1920, 1940, 1950, 1960, 1970, 1980, 1996],dtipe='double')
-ye1=[9.9, 14.3, 17.4, 30.6]
+xe1=[1872, 1890, 1900, 1920, 1940, 1950, 1960, 1970, 1980, 1991, 1996]
+ye1=[9.9, 14.3, 17.4, 30.6, 41.2, 51.9, 70.2, 93.1, 119.0, 146.2, 157.1]
+
+plt.plot(xe1,ye1,'ro')
+plt.title('teste')
+plt.show()
 
 '''
 xi=np.array([0,1,2,3],dtype='double')
