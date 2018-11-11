@@ -5,33 +5,40 @@ from scipy import interpolate
 import numpy as np  
 from numpy import linalg 
 import matplotlib.pyplot as plt
-#from _future_ import division
-#from simpy import *
-#init_printing()
-#x, y= simbols('x y')
-xe1=[1872, 1890, 1900, 1920, 1940, 1950, 1960, 1970, 1980, 1991, 1996]
-ye1=[9.9, 14.3, 17.4, 30.6, 41.2, 51.9, 70.2, 93.1, 119.0, 146.2, 157.1]
 
-i=0
-for x in xe1:
-	i=i+1
+#Tabela Questao 1:
+xIBGE = [1872, 1890, 1900, 1920, 1940, 1950, 1960, 1970, 1980, 1991, 1996]
+yIBGE = [9.9, 14.3, 17.4, 30.6, 41.2, 51.9, 70.2, 93.1, 119.0, 146.2, 157.1]
 
-#print(i)
+xEmbriao = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+yEmbriao = [0.029, 0.052, 0.079, 0.125, 0.181, 0.261, 0.425, 0.738, 1.130, 1.882, 2.812]
 
-'''
-plt.plot(xe1,ye1,'ro')
-plt.title('teste')
-plt.show() #exercicio 1) a)
-'''
+#Questao 1:
+#a)
+plt.plot(xIBGE,yIBGE,'ro')
+plt.title('Dados Funcao 1')
+plt.show()
+
+#b
+
+#c
+
+#d
+
+#e
+
+#Questao 2:
+
+#a
+plt.plot(xEmbriao,yEmbriao,'ro')
+plt.title('Dados Funcao 2')
+plt.show()
+
+#b
+
+#c
+
+#d
 
 
-'''
-xi=np.array([0,1,2,3],dtype='double')
-yi = np.array([1,6,5,-8], dtype='double')
-A = np.array([xi**3,xi**2,xi**1,xi**0]).transpose()
-a = np.linalg.inv(A).dot(yi);a 
-array([ -1,  0,  6,  1 ])
-xx=np.linspace(-0.5,3.25)
-plt.plot(xi,yi,'ro',xx,np.polyval(a,xx),'b-')
-plt.grid();plt.show()'''
  
