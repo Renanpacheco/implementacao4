@@ -7,13 +7,13 @@ from numpy import linalg
 import matplotlib.pyplot as plt
 
 #Tabela Questao 1:
-xIBGE = [1872, 1890, 1900, 1920, 1940, 1950, 1960, 1970, 1980, 1991, 1996]
-yIBGE = [9.9, 14.3, 17.4, 30.6, 41.2, 51.9, 70.2, 93.1, 119.0, 146.2, 157.1]
+xIBGE = np.array([1872, 1890, 1900, 1920, 1940, 1950, 1960, 1970, 1980, 1991, 1996], dtype = 'double')
+yIBGE = np.array([9.9, 14.3, 17.4, 30.6, 41.2, 51.9, 70.2, 93.1, 119.0, 146.2, 157.1], dtype = 'double')
 nIBGE = len(xIBGE)
 
-
-xEmbriao = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-yEmbriao = [0.029, 0.052, 0.079, 0.125, 0.181, 0.261, 0.425, 0.738, 1.130, 1.882, 2.812]
+#Tabela Questao 2:
+xEmbriao = np.array([6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], dtype = 'double')
+yEmbriao = np.array([0.029, 0.052, 0.079, 0.125, 0.181, 0.261, 0.425, 0.738, 1.130, 1.882, 2.812], dtype = 'double')
 nEmbriao = len(xEmbriao)
 
 
@@ -25,9 +25,10 @@ plt.show()
 
 #b
 
+
 #c
 
-#dGIT 
+#d
 
 #e
 
@@ -43,6 +44,3 @@ plt.show()
 #c
 
 #d
-
-
- 
