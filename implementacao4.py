@@ -16,27 +16,27 @@ def delta (vetorX, vetorY, vetorResultado):
 		aux=(vetorY[i+1]-vetorY[i])/(vetorX[i+dif]-vetorX[i])
 		vetorResultado.append(aux)
 
-
 def polinomio_teste(delta, vetorX, vetorY, grau, x):
 	if grau == 0:
-		return vetorX[0]
+		return vetorY[0]
 
 	elif grau == 1:
 		return delta[0]*(x-vetorX[0]) +vetorY[0]
 
 	elif grau == 2:
-		return ((x-vetorX[0])*(x-vetorX[1]))*d2[0]+ (x-vetorX[0])*d1[0] +vetorX[0]
+		return ((x-vetorX[0])*(x-vetorX[1]))*delta[1]+ (x-vetorX[0])*delta[0] +vetorY[0]
 
 	elif grau == 3:
-		return ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2]))*d3[0]+ ((x-vetorX[0])*(x-vetorX[1]))*d2[0]+ d1[0]*(x-vetorX[0]) +vetorX[0]
+		return ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2]))*delta[2]+ ((x-vetorX[0])*(x-vetorX[1]))*delta[1]+ delta[0]*(x-vetorX[0]) +vetorY[0]
 
 	elif grau == 4:
 	
-		return ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*d4[0]+ ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*d3[0]+ ((x-vetorX[0])*(x-vetorX[1]))*d2[0]+ d1[0]*(x-vetorX[0]) +vetorX[0]
+		return ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*delta[3]+ ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*delta[2]+ ((x-vetorX[0])*(x-vetorX[1]))*delta[1]+ delta[0]*(x-vetorX[0]) +vetorY[0]
 
 	else:
 	
-		return ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3])*(x-vetorX[4]))*d5+ ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*d4[0]+ ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*d3[0]+ ((x-vetorX[0])*(x-vetorX[1]))*d2[0]+ d1[0]*(x-vetorX[0]) +vetorX[0]
+		return ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3])*(x-vetorX[4]))*delta[4]+ ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*delta[3]+ ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*delta[2]+ ((x-vetorX[0])*(x-vetorX[1]))*delta[1]+ delta[0]*(x-vetorX[0]) +vetorY[0]
+
 
 
 #Tabela Questao 1:
@@ -51,18 +51,23 @@ nEmbriao = len(xEmbriao)
 #print(xEmbriao[0])
 #Questao 1:
 #a)
-
 plt.plot(xIBGE,yIBGE,'ro')
 plt.title('Dados Funcao 1')
 plt.show()
 
 #b
-#print(yEmbriao[0])
+d1_ibge = []
+delta(xIBGE, yIBGE, d1_ibge)
+d2_ibge = []
+delta(xIBGE, d1_ibge, d2_ibge)
+d3_ibge = []
+delta(xIBGE, d2_ibge, d3_ibge)
+
 	
 
 #c
 
-#dGIT 
+#d
 
 #e
 
@@ -90,6 +95,7 @@ delta(xEmbriao, d3, d4)
 
 d5=(d4[1]-d4[0])/(xEmbriao[5]-xEmbriao[0])
 
+deltas = [d1[0], d2[0], d3[0], d4[0], d5]
 
 
 def polinomio():
@@ -132,23 +138,23 @@ res4=[]
 res5=[]
 #n=xEmbriao
 for n in range(nEmbriao):
-	aux = polinomio1(xEmbriao[n])	
+	aux = polinomio_teste(deltas, xEmbriao, yEmbriao, 1, xEmbriao[n])
 	e1=e1+ abs(yEmbriao[n]-aux)
 	res1.append(aux)
 
-	aux=polinomio2(xEmbriao[n])
+	aux = polinomio_teste(deltas, xEmbriao, yEmbriao, 2, xEmbriao[n])
 	e2=e2+ abs(yEmbriao[n]-aux)
 	res2.append(aux)
 
-	aux=polinomio3(xEmbriao[n])
+	aux = polinomio_teste(deltas, xEmbriao, yEmbriao, 3, xEmbriao[n])
 	e3=e3+ abs(yEmbriao[n]-aux)
 	res3.append(aux)
 
-	aux=polinomio4(xEmbriao[n])
+	aux = polinomio_teste(deltas, xEmbriao, yEmbriao, 4, xEmbriao[n])
 	e4=e4+ abs(yEmbriao[n]-aux)
 	res4.append(aux)
 
-	aux=polinomio5(xEmbriao[n])
+	aux = polinomio_teste(deltas, xEmbriao, yEmbriao, 5, xEmbriao[n])
 	e5=e5+ abs(yEmbriao[n]-aux)
 	res5.append(aux)
 	
@@ -165,50 +171,45 @@ if e1<e2 and e1<e3 and e1<e4 and e1<e5:
 	#escolhido=1
 	
 	plt.plot(res1)
-	plt.title('polinomio grau 1')
+	plt.title('Polinomio grau 1')
 	plt.show()
 	
 	#d
-	print("peso estimado em 20 dias")
-	print(polinomio1(20))
+	print("Peso estimado em 20 dias: %f" %polinomio_teste(deltas, xEmbriao, yEmbriao, 1, 20))
 		
 elif e2<e1 and e2<e3 and e2<e4 and e2<e5:
 	#escolhido=2
 	plt.plot(res2)
-	plt.title('polinomio grau 2')
+	plt.title('Polinomio grau 2')
 	plt.show()
 	
 	#d
-	print("peso estimado em 20 dias")
-	print(polinomio2(20))
+	print("Peso estimado em 20 dias: %f" %polinomio_teste(deltas, xEmbriao, yEmbriao, 2, 20))
 	
 elif e3<e1 and e3<e2 and e3<e4 and e3<e5:
 	#escolhido=3
 	plt.plot(res3)
-	plt.title('polinomio grau 3')
+	plt.title('Polinomio grau 3')
 	plt.show()
 	
 	#d
-	print("peso estimado em 20 dias")
-	print(polinomio3(20))
+	print("Peso estimado em 20 dias: %f" %polinomio_teste(deltas, xEmbriao, yEmbriao, 3, 20))
 	
 elif e4<e1 and e4<e2 and e4<e3 and e4<e5:
 	#escolhido=4
 	plt.plot(res4)
-	plt.title('polinomio grau 4')
+	plt.title('Polinomio grau 4')
 	plt.show()
 	
 	#d
-	print("peso estimado em 20 dias")
-	print(polinomio4(20))
+	print("Peso estimado em 20 dias: %f" %polinomio_teste(deltas, xEmbriao, yEmbriao, 4, 20))
 	
 else:
 	#escolhido=5
 	plt.plot(res5)
-	plt.title('polinomio grau 5')
+	plt.title('Polinomio grau 5')
 	plt.show()
 	
 	#d
-	print("peso estimado em 20 dias")
-	print(polinomio5(20))
+	print("Peso estimado em 20 dias: %f" %polinomio_teste(deltas, xEmbriao, yEmbriao, 5, 20))
  
