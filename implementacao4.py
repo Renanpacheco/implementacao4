@@ -30,11 +30,9 @@ def polinomio_teste(delta, vetorX, vetorY, grau, x):
 		return ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2]))*delta[2]+ ((x-vetorX[0])*(x-vetorX[1]))*delta[1]+ delta[0]*(x-vetorX[0]) +vetorY[0]
 
 	elif grau == 4:
-	
 		return ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*delta[3]+ ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*delta[2]+ ((x-vetorX[0])*(x-vetorX[1]))*delta[1]+ delta[0]*(x-vetorX[0]) +vetorY[0]
 
 	else:
-	
 		return ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3])*(x-vetorX[4]))*delta[4]+ ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*delta[3]+ ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*delta[2]+ ((x-vetorX[0])*(x-vetorX[1]))*delta[1]+ delta[0]*(x-vetorX[0]) +vetorY[0]
 
 
@@ -58,12 +56,11 @@ plt.show()
 #b
 d1_ibge = []
 delta(xIBGE, yIBGE, d1_ibge)
+
 d2_ibge = []
 delta(xIBGE, d1_ibge, d2_ibge)
-d3_ibge = []
-delta(xIBGE, d2_ibge, d3_ibge)
 
-	
+d3_ibge = (d2_ibge[1]-d2_ibge[0])/(xEmbriao[3]-xEmbriao[0])
 
 #c
 
@@ -96,32 +93,6 @@ delta(xEmbriao, d3, d4)
 d5=(d4[1]-d4[0])/(xEmbriao[5]-xEmbriao[0])
 
 deltas = [d1[0], d2[0], d3[0], d4[0], d5]
-
-
-def polinomio():
-	return yEmbriao[0]
-
-
-def polinomio1(x):
-	
-	return d1[0]*(x-xEmbriao[0]) +yEmbriao[0]
-
-def polinomio2(x):
-	
-	return ((x-xEmbriao[0])*(x-xEmbriao[1]))*d2[0]+ (x-xEmbriao[0])*d1[0] +yEmbriao[0]
-
-def polinomio3(x):
-	
-	return ((x-xEmbriao[0])*(x-xEmbriao[1])*(x-xEmbriao[2]))*d3[0]+ ((x-xEmbriao[0])*(x-xEmbriao[1]))*d2[0]+ d1[0]*(x-xEmbriao[0]) +yEmbriao[0]
-
-def polinomio4(x):
-	
-	return ((x-xEmbriao[0])*(x-xEmbriao[1])*(x-xEmbriao[2])*(x-xEmbriao[3]))*d4[0]+ ((x-xEmbriao[0])*(x-xEmbriao[1])*(x-xEmbriao[2])*(x-xEmbriao[3]))*d3[0]+ ((x-xEmbriao[0])*(x-xEmbriao[1]))*d2[0]+ d1[0]*(x-xEmbriao[0]) +yEmbriao[0]
-
-def polinomio5(x):
-	
-	return ((x-xEmbriao[0])*(x-xEmbriao[1])*(x-xEmbriao[2])*(x-xEmbriao[3])*(x-xEmbriao[4]))*d5+ ((x-xEmbriao[0])*(x-xEmbriao[1])*(x-xEmbriao[2])*(x-xEmbriao[3]))*d4[0]+ ((x-xEmbriao[0])*(x-xEmbriao[1])*(x-xEmbriao[2])*(x-xEmbriao[3]))*d3[0]+ ((x-xEmbriao[0])*(x-xEmbriao[1]))*d2[0]+ d1[0]*(x-xEmbriao[0]) +yEmbriao[0]
-
 
 #c
 
