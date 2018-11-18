@@ -60,8 +60,69 @@ for i in range(nEmbriao-1):
 	#i=i+1
 	
 	d1.append(aux)
-
+'''
+print("d1")
 print(d1)
+print(len(d1))
+'''
+d2=[]
+
+for j in range(len(d1)-1): #pode ser 2
+	aux=(d1[j+1]-d1[j])/(xEmbriao[j+2]-xEmbriao[j])
+	d2.append(aux)
+
+'''
+print("d2")
+print(d2)
+print(len(d2))
+'''
+
+d3=[]
+
+for k in range(len(d2)-1): #pode ser 3 ou 2
+	aux=(d2[k+1]-d2[k])/(xEmbriao[k+3]-xEmbriao[k])
+	d3.append(aux)
+
+'''	
+print("d3")
+print(d3)
+print(len(d3))
+'''
+
+d4=[]
+
+for l in range(len(d3)-1): #pode ser 3 ou 2
+	aux=(d3[l+1]-d3[l])/(xEmbriao[l+4]-xEmbriao[l])
+	d4.append(aux)
+
+d5=(d4[1]-d4[0])/(xEmbriao[5]-xEmbriao[0])
+
+
+
+def polinomio():
+	return yEmbriao[0]
+
+
+def polinomio1(x):
+	
+	return d1[0]*(x-xEmbriao[0]) +yEmbriao[0]
+
+def polinomio2(x):
+	
+	return ((x-xEmbriao[0])*(x-xEmbriao[1]))*d2[0]+ (x-xEmbriao[0])*d1[0] +yEmbriao[0]
+
+def polinomio3(x):
+	
+	return ((x-xEmbriao[0])*(x-xEmbriao[1])*(x-xEmbriao[2]))*d3[0]+ ((x-xEmbriao[0])*(x-xEmbriao[1]))*d2[0]+ d1[0]*(x-xEmbriao[0]) +yEmbriao[0]
+
+def polinomio4(x):
+	
+	return ((x-xEmbriao[0])*(x-xEmbriao[1])*(x-xEmbriao[2])*(x-xEmbriao[3]))*d4[0]+ ((x-xEmbriao[0])*(x-xEmbriao[1])*(x-xEmbriao[2])*(x-xEmbriao[3]))*d3[0]+ ((x-xEmbriao[0])*(x-xEmbriao[1]))*d2[0]+ d1[0]*(x-xEmbriao[0]) +yEmbriao[0]
+
+def polinomio5(x):
+	
+	return ((x-xEmbriao[0])*(x-xEmbriao[1])*(x-xEmbriao[2])*(x-xEmbriao[3])*(x-xEmbriao[4]))*d5+ ((x-xEmbriao[0])*(x-xEmbriao[1])*(x-xEmbriao[2])*(x-xEmbriao[3]))*d4[0]+ ((x-xEmbriao[0])*(x-xEmbriao[1])*(x-xEmbriao[2])*(x-xEmbriao[3]))*d3[0]+ ((x-xEmbriao[0])*(x-xEmbriao[1]))*d2[0]+ d1[0]*(x-xEmbriao[0]) +yEmbriao[0]
+
 
 #c
 
