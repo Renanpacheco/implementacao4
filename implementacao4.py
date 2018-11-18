@@ -19,11 +19,11 @@ nEmbriao = len(xEmbriao)
 #print(xEmbriao[0])
 #Questao 1:
 #a)
-'''
+
 plt.plot(xIBGE,yIBGE,'ro')
 plt.title('Dados Funcao 1')
 plt.show()
-'''
+
 #b
 #print(yEmbriao[0])
 	
@@ -37,57 +37,34 @@ plt.show()
 #Questao 2:
 
 #a
-'''
+
 plt.plot(xEmbriao,yEmbriao,'ro')
 plt.title('Dados Funcao 2')
 plt.show()
-'''
+
 
 #b
 d1=[]
-'''
-d1=(yEmbriao[1]-yEmbriao[0])/(xEmbriao[1]-xEmbriao[0])
-d1=(yEmbriao[2]-yEmbriao[1])/(xEmbriao[2]-xEmbriao[1])
-d1=(yEmbriao[2]-yEmbriao[1])/(xEmbriao[2]-xEmbriao[1])
-'''
-#i=0
 
 aux=0.0
 
 for i in range(nEmbriao-1): 
-	#i=i+1
-	aux=(yEmbriao[i+1]-yEmbriao[i])/(xEmbriao[i+1]-xEmbriao[i])
-	#i=i+1
 	
+	aux=(yEmbriao[i+1]-yEmbriao[i])/(xEmbriao[i+1]-xEmbriao[i])
+		
 	d1.append(aux)
-'''
-print("d1")
-print(d1)
-print(len(d1))
-'''
+
 d2=[]
 
 for j in range(len(d1)-1): #pode ser 2
 	aux=(d1[j+1]-d1[j])/(xEmbriao[j+2]-xEmbriao[j])
 	d2.append(aux)
 
-'''
-print("d2")
-print(d2)
-print(len(d2))
-'''
-
 d3=[]
 
 for k in range(len(d2)-1): #pode ser 3 ou 2
 	aux=(d2[k+1]-d2[k])/(xEmbriao[k+3]-xEmbriao[k])
 	d3.append(aux)
-
-'''	
-print("d3")
-print(d3)
-print(len(d3))
-'''
 
 d4=[]
 
@@ -126,7 +103,92 @@ def polinomio5(x):
 
 #c
 
-#d
+e1=0
+e2=0
+e3=0
+e4=0
+e5=0
 
+res1=[]
+res2=[]
+res3=[]
+res4=[]
+res5=[]
+#n=xEmbriao
+for n in range(nEmbriao):
+	aux=polinomio1(xEmbriao[n])	
+	e1=e1+ abs(yEmbriao[n]-aux)
+	res1.append(aux)
+	aux=polinomio2(xEmbriao[n])
+	e2=e2+ abs(yEmbriao[n]-aux)
+	res2.append(aux)
+	aux=polinomio3(xEmbriao[n])
+	e3=e3+ abs(yEmbriao[n]-aux)
+	res3.append(aux)
+	aux=polinomio4(xEmbriao[n])
+	e4=e4+ abs(yEmbriao[n]-aux)
+	res4.append(aux)
+	aux=polinomio5(xEmbriao[n])
+	e5=e5+ abs(yEmbriao[n]-aux)
+	res5.append(aux)
+	
+	
+e1=e1*e1
+e2=e2*e2
+e3=e3*e3
+e4=e4*e4
+e5=e5*e5
 
+plt.plot(xEmbriao,yEmbriao,'ro')
+
+if e1<e2 and e1<e3 and e1<e4 and e1<e5:
+	#escolhido=1
+	
+	plt.plot(res1)
+	plt.title('polinomio grau 1')
+	plt.show()
+	
+	#d
+	print("peso estimado em 20 dias")
+	print(polinomio1(20))
+		
+elif e2<e1 and e2<e3 and e2<e4 and e2<e5:
+	#escolhido=2
+	plt.plot(res2)
+	plt.title('polinomio grau 2')
+	plt.show()
+	
+	#d
+	print("peso estimado em 20 dias")
+	print(polinomio2(20))
+	
+elif e3<e1 and e3<e2 and e3<e4 and e3<e5:
+	#escolhido=3
+	plt.plot(res3)
+	plt.title('polinomio grau 3')
+	plt.show()
+	
+	#d
+	print("peso estimado em 20 dias")
+	print(polinomio3(20))
+	
+elif e4<e1 and e4<e2 and e4<e3 and e4<e5:
+	#escolhido=4
+	plt.plot(res4)
+	plt.title('polinomio grau 4')
+	plt.show()
+	
+	#d
+	print("peso estimado em 20 dias")
+	print(polinomio4(20))
+	
+else:
+	#escolhido=5
+	plt.plot(res5)
+	plt.title('polinomio grau 5')
+	plt.show()
+	
+	#d
+	print("peso estimado em 20 dias")
+	print(polinomio5(20))
  
