@@ -6,10 +6,42 @@ import numpy as np
 from numpy import linalg 
 import matplotlib.pyplot as plt
 
+def delta (vetorX, vetorY, vetorResultado):
+	tamVetor = len(vetorY)
+	dif = len(vetorX) - tamVetor + 1
+	
+	aux=0.0
+
+	for i in range(tamVetor-1): 
+		aux=(vetorY[i+1]-vetorY[i])/(vetorX[i+dif]-vetorX[i])
+		vetorResultado.append(aux)
+
+
+def polinomio_teste(delta, vetorX, vetorY, grau, x):
+	if grau == 0:
+		return vetorX[0]
+
+	elif grau == 1:
+		return delta[0]*(x-vetorX[0]) +vetorY[0]
+
+	elif grau == 2:
+		return ((x-vetorX[0])*(x-vetorX[1]))*d2[0]+ (x-vetorX[0])*d1[0] +vetorX[0]
+
+	elif grau == 3:
+		return ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2]))*d3[0]+ ((x-vetorX[0])*(x-vetorX[1]))*d2[0]+ d1[0]*(x-vetorX[0]) +vetorX[0]
+
+	elif grau == 4:
+	
+		return ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*d4[0]+ ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*d3[0]+ ((x-vetorX[0])*(x-vetorX[1]))*d2[0]+ d1[0]*(x-vetorX[0]) +vetorX[0]
+
+	else:
+	
+		return ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3])*(x-vetorX[4]))*d5+ ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*d4[0]+ ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*d3[0]+ ((x-vetorX[0])*(x-vetorX[1]))*d2[0]+ d1[0]*(x-vetorX[0]) +vetorX[0]
+
+
 #Tabela Questao 1:
 xIBGE = [1872, 1890, 1900, 1920, 1940, 1950, 1960, 1970, 1980, 1991, 1996]
 yIBGE = [9.9, 14.3, 17.4, 30.6, 41.2, 51.9, 70.2, 93.1, 119.0, 146.2, 157.1]
-nIBGE = len(xIBGE)
 
 
 xEmbriao = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
@@ -45,32 +77,16 @@ plt.show()
 
 #b
 d1=[]
-
-aux=0.0
-
-for i in range(nEmbriao-1): 
-	
-	aux=(yEmbriao[i+1]-yEmbriao[i])/(xEmbriao[i+1]-xEmbriao[i])
-		
-	d1.append(aux)
+delta(xEmbriao, yEmbriao, d1)
 
 d2=[]
-
-for j in range(len(d1)-1): #pode ser 2
-	aux=(d1[j+1]-d1[j])/(xEmbriao[j+2]-xEmbriao[j])
-	d2.append(aux)
+delta(xEmbriao, d1, d2)
 
 d3=[]
-
-for k in range(len(d2)-1): #pode ser 3 ou 2
-	aux=(d2[k+1]-d2[k])/(xEmbriao[k+3]-xEmbriao[k])
-	d3.append(aux)
+delta(xEmbriao, d2, d3)
 
 d4=[]
-
-for l in range(len(d3)-1): #pode ser 3 ou 2
-	aux=(d3[l+1]-d3[l])/(xEmbriao[l+4]-xEmbriao[l])
-	d4.append(aux)
+delta(xEmbriao, d3, d4)
 
 d5=(d4[1]-d4[0])/(xEmbriao[5]-xEmbriao[0])
 
@@ -116,18 +132,22 @@ res4=[]
 res5=[]
 #n=xEmbriao
 for n in range(nEmbriao):
-	aux=polinomio1(xEmbriao[n])	
+	aux = polinomio1(xEmbriao[n])	
 	e1=e1+ abs(yEmbriao[n]-aux)
 	res1.append(aux)
+
 	aux=polinomio2(xEmbriao[n])
 	e2=e2+ abs(yEmbriao[n]-aux)
 	res2.append(aux)
+
 	aux=polinomio3(xEmbriao[n])
 	e3=e3+ abs(yEmbriao[n]-aux)
 	res3.append(aux)
+
 	aux=polinomio4(xEmbriao[n])
 	e4=e4+ abs(yEmbriao[n]-aux)
 	res4.append(aux)
+
 	aux=polinomio5(xEmbriao[n])
 	e5=e5+ abs(yEmbriao[n]-aux)
 	res5.append(aux)
