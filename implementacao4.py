@@ -230,11 +230,6 @@ X_3 = mmq (xEmbriao, yEmbriao, 3)
 X_4 = mmq (xEmbriao, yEmbriao, 4)
 X_5 = mmq (xEmbriao, yEmbriao, 5)
 #c
-e1 = 0
-e2 = 0
-e3 = 0
-e4 = 0
-e5 = 0
 
 res1=[]
 res2=[]
