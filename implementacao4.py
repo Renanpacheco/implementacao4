@@ -6,37 +6,119 @@ import numpy as np
 from numpy import linalg 
 import matplotlib.pyplot as plt
 
-def delta (vetorX, vetorY, vetorResultado):
-	tamVetor = len(vetorY)
-	dif = len(vetorX) - tamVetor + 1
-	
-	aux=0.0
+def mmq_exp(vetorX, vetorY):
+	tamVetor = len(vetorX)
+	#Somatorios:
 
-	for i in range(tamVetor-1): 
-		aux=(vetorY[i+1]-vetorY[i])/(vetorX[i+dif]-vetorX[i])
-		vetorResultado.append(aux)
+	sumA = 0.0 #x
+	sumB = 0.0 #ln(y)
+	sumX_Y = 0.0 #x*ln(y)
+	sumX_2 = 0.0 #x^2
 
-def polinomio_teste(delta, vetorX, vetorY, grau, x):
-	if grau == 0:
-		return vetorY[0]
+	for i in range (tamVetor):
+		sumA = sumA + vetorX[i]
+		sumX_2 = sumX_2 + (vetorX[i]**2)
+		sumB =  sumB + np.log(vetorY[i])
+		sumX_Y =  sumX_Y + (np.log(vetorY[i])* vetorX[i])
 
-	elif grau == 1:
-		return delta[0]*(x-vetorX[0]) +vetorY[0]
+	#Matriz com os valores do somatorio
+	A = np.array([[tamVetor, sumA],
+				[sumA, sumX_2]])
 
+	#Matriz do somatorio dos valores de Y
+	Y = np.array([sumB, sumX_Y])
+
+	#Matriz inversa de A para achar as raizes de a0 e b0
+	A_inversa = np.linalg.inv(A)
+
+	#X = a0, a1
+	X = np.dot(A_inversa, Y)
+	X[0] = np.exp(X[0])
+
+	return X
+
+
+def mmq (vetorX, vetorY, grau):
+	tamVetor = len(vetorX)
+	#Somatorios:
+
+	sumA = 0.0 #x
+	sumB = 0.0 #y
+	sumX_Y = 0.0 #x*y
+	sumX2_Y = 0.0
+	sumX3_Y = 0.0
+	sumX4_Y = 0.0
+	sumX5_Y = 0.0
+	sumX_2 = 0.0 #x^2
+	sumX_3 = 0.0 #x^3
+	sumX_4 = 0.0 #x^4
+	sumX_5 = 0.0 #x^5
+	sumX_6 = 0.0 #x^6
+	sumX_7 = 0.0 #x^7
+	sumY_2 = 0.0#y^2
+
+	for i in range (tamVetor):
+		sumA = sumA + vetorX[i]
+		sumX_2 = sumX_2 + (vetorX[i]**2)
+		sumX_3 = sumX_3 + (vetorX[i]**3)
+		sumX_4 = sumX_4 + (vetorX[i]**4)
+		sumX_5 = sumX_5 + (vetorX[i]**5)
+		sumX_6 = sumX_6 + (vetorX[i]**6)
+		sumX_7 = sumX_7 + (vetorX[i]**7)
+		sumB =  sumB + vetorY[i]
+		sumY_2 = sumY_2 + (vetorY[i]**2)
+		sumX_Y =  sumX_Y + (vetorY[i]* vetorX[i])
+		sumX2_Y =  sumX2_Y + (vetorY[i]* (vetorX[i]**2))
+		sumX3_Y =  sumX3_Y + (vetorY[i]* (vetorX[i]**3))
+		sumX4_Y =  sumX4_Y + (vetorY[i]* (vetorX[i]**4))
+		sumX5_Y =  sumX5_Y + (vetorY[i]* (vetorX[i]**5))
+
+	if grau == 1:
+		A = np.array ([[tamVetor, sumA],
+						[sumA, sumX_2]])
+		Y = np.array([sumB, sumY_2])
+		A_inversa = np.linalg.inv(A)
+		#X = a0, a1
+		X = np.dot(A_inversa, Y)
+		print X
 	elif grau == 2:
-		return ((x-vetorX[0])*(x-vetorX[1]))*delta[1]+ (x-vetorX[0])*delta[0] +vetorY[0]
 
+		A = np.array([[tamVetor, sumA, sumX_2],
+					[sumA, sumX_2, sumX_3],
+					[sumX_2, sumX_3, sumX_4]])
+		Y = np.array([sumB, sumX_Y, sumX2_Y])
+		A_inversa = np.linalg.inv(A)
+		#X = a0, a1, a2
+		X = np.dot(A_inversa, Y)
+		
 	elif grau == 3:
-		return ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2]))*delta[2]+ ((x-vetorX[0])*(x-vetorX[1]))*delta[1]+ delta[0]*(x-vetorX[0]) +vetorY[0]
-
+		return 0
 	elif grau == 4:
-		return ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*delta[3]+ ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*delta[2]+ ((x-vetorX[0])*(x-vetorX[1]))*delta[1]+ delta[0]*(x-vetorX[0]) +vetorY[0]
-
+		return 0
+	elif grau == 5:
+		return  0
 	else:
-		return ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3])*(x-vetorX[4]))*delta[4]+ ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*delta[3]+ ((x-vetorX[0])*(x-vetorX[1])*(x-vetorX[2])*(x-vetorX[3]))*delta[2]+ ((x-vetorX[0])*(x-vetorX[1]))*delta[1]+ delta[0]*(x-vetorX[0]) +vetorY[0]
+		print("Grau indefinido!")
+		exit(1)
+	return X
 
 def calculo_exponencial(a0, a1, x):
 	return a0*np.exp(a1*x)
+
+def polinomial(a0, a1, a2, a3 , a4, a5, x, grau):
+	if grau==0:
+		return a0
+	elif grau==1:
+		return a0+ a1*x
+	elif grau ==2:
+		return a0+ a1*x + a2*(x**2)
+	elif grau ==3:
+		return a0+ a1*x + a2*(x**2) + a3*(x**3)
+	elif grau ==4:
+		return a0+ a1*x + a2*(x**2) + a3*(x**3) + a4*(x**4)
+	else:
+		return a0+ a1*x + a2*(x**2) + a3*(x**3) + a4*(x**4) + a5*(x**5)
+
 
 #Tabela Questao 1:
 xIBGE = [1872, 1890, 1900, 1920, 1940, 1950, 1960, 1970, 1980, 1991, 1996]
@@ -55,58 +137,24 @@ plt.title('Dados Funcao 1')
 plt.show()
 
 #b
-d1_ibge = []
-delta(xIBGE, yIBGE, d1_ibge)
-
-d2_ibge = []
-delta(xIBGE, d1_ibge, d2_ibge)
-
-d3_ibge = (d2_ibge[1]-d2_ibge[0])/(xIBGE[3]-xIBGE[0])
-
-deltas_ibge = [d1_ibge[0], d2_ibge[0], d3_ibge]
-
 e1_ibge = 0.0
 res1_ibge = []
 
+X = mmq(xIBGE, yIBGE, 2)
+
 #dados para o grafico
 for n in range(nIBGE):
-	aux = polinomio_teste(deltas_ibge, xIBGE, yIBGE, 2, xIBGE[n])
+	aux = polinomial(X[0], X[1], X[2], 0, 0, 0, xIBGE[n], 2)
 	e1_ibge = e1_ibge + abs(yIBGE[n]-aux)
 	res1_ibge.append(aux)
 
 #c
 
-#Somatorios:
-
-sumA = 0.0
-sumB = 0.0
-sumX_Y = 0.0
-sumX_2 = 0.0
-
-for i in range (nIBGE):
-	sumA = sumA + xIBGE[i]
-	sumX_2 = sumX_2 + (xIBGE[i]**2)
-	sumB =  sumB + np.log(yIBGE[i])
-	sumX_Y =  sumX_Y + (np.log(yIBGE[i])* xIBGE[i])
-
-
-A = np.array([[nIBGE, sumA],
-			[sumA, sumX_2]])
-
-Y = np.array([sumB, sumX_Y])
-
-
-A_inversa = np.linalg.inv(A)
-
-X = np.dot(A_inversa, Y)
-
-X[0] = np.exp(X[0])
-
-print X
 
 e2_ibge = 0.0
 res2_ibge = []
 
+X = mmq_exp(xIBGE, yIBGE)
 #dados para o grafico
 for n in range(nIBGE):
 	aux = calculo_exponencial(X[0], X[1], xIBGE[n])
@@ -119,28 +167,29 @@ plt.plot(xIBGE,yIBGE,'ro')
 #d
 e1_ibge = e1_ibge ** 2
 e2_ibge = e2_ibge ** 2
-'''
+
 if e1_ibge < e2_ibge:
-	plt.plot(res1_ibge)
+	plt.plot(xIBGE, res1_ibge)
 	plt.title('Polinomio grau 2')
 	plt.show()
 
 else:
-'''
-plt.plot(xIBGE, res2_ibge)
-plt.title('Exponencial')
-plt.show()
+
+	plt.plot(xIBGE, res2_ibge)
+	plt.title('Exponencial')
+	plt.show()
 
 #e
+
 print("Dados estimados em funcao de 2o grau:")
-print("2000: %f" %polinomio_teste(deltas_ibge, xIBGE, yIBGE, 2, 2000)) 
-print("2005: %f" %polinomio_teste(deltas_ibge, xIBGE, yIBGE, 2, 2005))
-print("2014: %f" %polinomio_teste(deltas_ibge, xIBGE, yIBGE, 2, 2014))
+print("2000: %f" %polinomial(X[0], X[1], X[2], 0, 0, 0, 2000, 2))
+print("2005: %f" %polinomial(X[0], X[1], X[2], 0, 0, 0, 2005, 2))
+print("2014: %f" %polinomial(X[0], X[1], X[2], 0, 0, 0, 2014, 2))
 
 print("Dados estimados em funcao exponencial:")
 print("2000: %f" %calculo_exponencial(X[0], X[1], 2000))
-print("2005: %f" %calculo_exponencial(a0, a1, 2005))
-print("2014: %f" %calculo_exponencial(a0, a1, 2014))
+print("2005: %f" %calculo_exponencial(X[0], X[1], 2005))
+print("2014: %f" %calculo_exponencial(X[0], X[1], 2014))
 '''
 #Questao 2:
 
