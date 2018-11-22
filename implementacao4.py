@@ -1,9 +1,8 @@
 #Trabalho elaborado por: Renan Pacheco e Taine Freitas
 
 from __future__ import division
-from scipy import interpolate  
+from scipy import stats 
 import numpy as np  
-from numpy import linalg 
 import matplotlib.pyplot as plt
 
 def mmq_exp(vetorX, vetorY):
@@ -40,15 +39,15 @@ def mmq_exp(vetorX, vetorY):
 
 def mmq (vetorX, vetorY, grau):
 	tamVetor = len(vetorX)
-	#Somatorios:
 
+	#Somatorios:
 	sumA = 0.0 #x
 	sumB = 0.0 #y
 	sumX_Y = 0.0 #x*y
-	sumX2_Y = 0.0
-	sumX3_Y = 0.0
-	sumX4_Y = 0.0
-	sumX5_Y = 0.0
+	sumX2_Y = 0.0 #x^2*y
+	sumX3_Y = 0.0 #x^3*y
+	sumX4_Y = 0.0 #x^4*y
+	sumX5_Y = 0.0 #x^5*y
 	sumX_2 = 0.0 #x^2
 	sumX_3 = 0.0 #x^3
 	sumX_4 = 0.0 #x^4
@@ -82,33 +81,20 @@ def mmq (vetorX, vetorY, grau):
 	if grau == 1:
 		A = np.array ([[tamVetor, sumA],
 						[sumA, sumX_2]])
-		Y = np.array([sumB, sumY_2])
-		A_inversa = np.linalg.inv(A)
-		#X = a0, a1
-		X = np.dot(A_inversa, Y)
+		Y = np.array([sumB, sumX_Y])
 
 	elif grau == 2:
 		A = np.array([[tamVetor, sumA, sumX_2],
 					[sumA, sumX_2, sumX_3],
 					[sumX_2, sumX_3, sumX_4]])
-
 		Y = np.array([sumB, sumX_Y, sumX2_Y])
 
-
-		A_inversa = np.linalg.inv(A)
-		#X = a0, a1, a2
-		X = np.dot(A_inversa, Y)
 	elif grau == 3:
 		A = np.array([[tamVetor, sumA, sumX_2, sumX_3],
 					[sumA, sumX_2, sumX_3, sumX_4],
 					[sumX_2, sumX_3, sumX_4, sumX_5],
 					[sumX_3, sumX_4, sumX_5, sumX_6]])
-
 		Y = np.array([sumB, sumX_Y, sumX2_Y, sumX3_Y])
-
-		A_inversa = np.linalg.inv(A)
-		#X = a0, a1, a2, a3
-		X = np.dot(A_inversa, Y)
 
 	elif grau == 4:
 		A = np.array([[tamVetor, sumA, sumX_2, sumX_3, sumX_4],
@@ -117,11 +103,7 @@ def mmq (vetorX, vetorY, grau):
 					[sumX_3, sumX_4, sumX_5, sumX_6, sumX_7],
 					[sumX_4, sumX_5, sumX_6, sumX_7, sumX_8]])
 		Y = np.array([sumB, sumX_Y, sumX2_Y, sumX3_Y, sumX4_Y])
-
-		A_inversa = np.linalg.inv(A)
-
-		#X = a0, a1, a2, a3, a4
-		X = np.dot(A_inversa, Y)
+		
 	elif grau == 5:
 		A = np.array([[tamVetor, sumA, sumX_2, sumX_3, sumX_4, sumX_5],
 					[sumA, sumX_2, sumX_3, sumX_4, sumX_5, sumX_6],
@@ -129,16 +111,14 @@ def mmq (vetorX, vetorY, grau):
 					[sumX_3, sumX_4, sumX_5, sumX_6, sumX_7, sumX_8],
 					[sumX_4, sumX_5, sumX_6, sumX_7, sumX_8, sumX_9],
 					[sumX_5, sumX_6, sumX_7, sumX_8, sumX_9, sumX_10]])
-
 		Y = np.array([sumB, sumX_Y, sumX2_Y, sumX3_Y, sumX4_Y, sumX5_Y])
-		
-		#X = a0, a1, a2, a3, a4, a5
-		A_inversa = np.linalg.inv(A)
-		X = np.dot(A_inversa, Y)
-
+	
 	else:
 		print("Grau indefinido!")
 		exit(1)
+
+	A_inversa = np.linalg.inv(A)	
+	X = np.dot(A_inversa, Y)
 	return X
 
 def calculo_exponencial(a0, a1, x):
@@ -156,8 +136,10 @@ def polinomial(a0, a1, a2, a3 , a4, a5, x, grau):
 		return a0+ a1*x + a2*(x**2) + a3*(x**3)
 	elif grau ==4:
 		return a0+ a1*x + a2*(x**2) + a3*(x**3) + a4*(x**4)
-	else:
+	elif grau ==5:
 		return a0+ a1*x + a2*(x**2) + a3*(x**3) + a4*(x**4) + a5*(x**5)
+	else:
+		print "Grau indefinido!"
 
 
 #Tabela Questao 1:
@@ -196,17 +178,19 @@ X_c = mmq_exp(xIBGE, yIBGE)
 #dados para o grafico
 for n in range(nIBGE):
 	aux = calculo_exponencial(X_c[0], X_c[1], xIBGE[n])
-	e2_ibge = e2_ibge + abs(yIBGE[n]-aux)
 	res2_ibge.append(aux)
 
 
 plt.plot(xIBGE,yIBGE,'ro')
 
+#Calculando o coeficiente de determinacao
+slope, intercept, e1, p_value, std_err = stats.linregress(yIBGE, res1_ibge)
+slope, intercept, e2, p_value, std_err = stats.linregress(yIBGE, res2_ibge)
 #d
 e1_ibge = e1_ibge ** 2
 e2_ibge = e2_ibge ** 2
 
-if e1_ibge < e2_ibge:
+if e1_ibge > e2_ibge:
 	plt.plot(xIBGE, res1_ibge)
 	plt.title('Polinomio grau 2')
 	plt.show()
@@ -246,83 +230,82 @@ X_3 = mmq (xEmbriao, yEmbriao, 3)
 X_4 = mmq (xEmbriao, yEmbriao, 4)
 X_5 = mmq (xEmbriao, yEmbriao, 5)
 #c
-
-e1=0
-e2=0
-e3=0
-e4=0
-e5=0
+e1 = 0
+e2 = 0
+e3 = 0
+e4 = 0
+e5 = 0
 
 res1=[]
 res2=[]
 res3=[]
 res4=[]
 res5=[]
-#n=xEmbriao
+#n=xEmbria
+
 n = 0
 for n in range(nEmbriao):
-	aux = polinomial(X_1[0], X_1[1], 0, 0, 0, 0, xIBGE[n], 1)
-	e1=e1+ abs(yEmbriao[n]-aux)
+	aux = polinomial(X_1[0], X_1[1], 0, 0, 0, 0, xEmbriao[n], 1)
 	res1.append(aux)
 
-	aux = polinomial(X_2[0], X_2[1], X_2[2], 0, 0, 0, xIBGE[n], 2)
-	e2=e2+ abs(yEmbriao[n]-aux)
+	aux = polinomial(X_2[0], X_2[1], X_2[2], 0, 0, 0, xEmbriao[n], 2)
 	res2.append(aux)
 
-	aux = polinomial(X_3[0], X_3[1], X_3[2], X_3[3], 0, 0, xIBGE[n], 3)
-	e3=e3+ abs(yEmbriao[n]-aux)
+	aux = polinomial(X_3[0], X_3[1], X_3[2], X_3[3], 0, 0, xEmbriao[n], 3)
 	res3.append(aux)
 
-	aux = polinomial(X_4[0], X_4[1], X_4[2], X_4[3], X_4[4], 0, xIBGE[n], 4)
-	e4=e4+ abs(yEmbriao[n]-aux)
+	aux = polinomial(X_4[0], X_4[1], X_4[2], X_4[3], X_4[4], 0, xEmbriao[n], 4)
 	res4.append(aux)
 
-	aux = polinomial(X_5[0], X_5[1], X_5[2], X_5[3], X_5[4], X_5[5], xIBGE[n], 5)
-	e5=e5+ abs(yEmbriao[n]-aux)
+	aux = polinomial(X_5[0], X_5[1], X_5[2], X_5[3], X_5[4], X_5[5], xEmbriao[n], 5)
 	res5.append(aux)
-	
-	
-e1=e1**2
-e2=e2**2
-e3=e3**2
-e4=e4**2
-e5=e5**2
 
 
+#Calculando o coeficiente de determinacao
+slope, intercept, r1, p_value, std_err = stats.linregress(yEmbriao, res1)
+slope, intercept, r2, p_value, std_err = stats.linregress(yEmbriao, res2)
+slope, intercept, r3, p_value, std_err = stats.linregress(yEmbriao, res3)
+slope, intercept, r4, p_value, std_err = stats.linregress(yEmbriao, res4)
+slope, intercept, r5, p_value, std_err = stats.linregress(yEmbriao, res5)
 
-plt.plot(xEmbriao,yEmbriao,'ro')
+r1 = r1 ** 2
+r2 = r2 ** 2
+r3 = r3 ** 2
+r4 = r4 ** 2
+r5 = r5 ** 2
 
-if e1<e2 and e1<e3 and e1<e4 and e1<e5:
+plt.plot(xEmbriao, yEmbriao)
+if r1>r2 and r1>r3 and r1>r4 and r1>r5:
 	#escolhido=1
 	
-	plt.plot(res1)
+	plt.plot(xEmbriao, res1)
 	plt.title('Polinomio grau 1')
 	plt.show()
 	
 	#d
 	print("Peso estimado em 20 dias: %f" %polinomial(X_1[0], X_1[1], 0, 0, 0, 0, 20, 1))
 		
-elif e2<e1 and e2<e3 and e2<e4 and e2<e5:
+elif r2>r1 and r2>r3 and r2>r4 and r2>r5:
 	#escolhido=2
-	plt.plot(res2)
+	plt.plot(xEmbriao, res2)
 	plt.title('Polinomio grau 2')
 	plt.show()
 	
 	#d
 	print("Peso estimado em 20 dias: %f" %polinomial(X_2[0], X_2[1], X_2[2], 0, 0, 0, 20, 2))
 	
-elif e3<e1 and e3<e2 and e3<e4 and e3<e5:
-	#escolhido=3
-	plt.plot(res3)
+elif r3>r1 and r3>r2 and r3>r4 and r3>r5:
+	#escolhido=3 
+	plt.plot(xEmbriao, res3)
 	plt.title('Polinomio grau 3')
 	plt.show()
 	
 	#d
 	print("Peso estimado em 20 dias: %f" %polinomial(X_3[0], X_3[1], X_3[2], X_3[3], 0, 0, 20, 3))
 	
-elif e4<e1 and e4<e2 and e4<e3 and e4<e5:
+elif r4>r1 and r4>r2 and r4>r3 and r4>r5:
 	#escolhido=4
-	plt.plot(res4)
+	plt.plot(xEmbriao, res4)
 	plt.title('Polinomio grau 4')
 	plt.show()
 	
@@ -331,7 +314,7 @@ elif e4<e1 and e4<e2 and e4<e3 and e4<e5:
 	
 else:
 	#escolhido=5
-	plt.plot(res5)
+	plt.plot(xEmbriao, res5)
 	plt.title('Polinomio grau 5')
 	plt.show()
 	
