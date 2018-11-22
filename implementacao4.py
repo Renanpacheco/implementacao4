@@ -83,23 +83,33 @@ sumB = 0.0
 sumX_Y = 0.0
 sumX_2 = 0.0
 
-for i in range (nIBGE - 1):
+for i in range (nIBGE):
 	sumA = sumA + xIBGE[i]
 	sumX_2 = sumX_2 + (xIBGE[i]**2)
 	sumB =  sumB + np.log(yIBGE[i])
 	sumX_Y =  sumX_Y + (np.log(yIBGE[i])* xIBGE[i])
 
-a1 = ((nIBGE * sumX_Y) - (sumA * sumB))/((nIBGE * sumX_2) - (sumA ** 2))
-a0_aux = ((sumA*sumX_Y) - (sumB*sumX_2))/((sumA**2)- (nIBGE * sumX_2))
 
-a0 = np.exp(a0_aux)
+A = np.array([[nIBGE, sumA],
+			[sumA, sumX_2]])
+
+Y = np.array([sumB, sumX_Y])
+
+
+A_inversa = np.linalg.inv(A)
+
+X = np.dot(A_inversa, Y)
+
+X[0] = np.exp(X[0])
+
+print X
 
 e2_ibge = 0.0
 res2_ibge = []
 
 #dados para o grafico
 for n in range(nIBGE):
-	aux = calculo_exponencial(a0, a1, xIBGE[n])
+	aux = calculo_exponencial(X[0], X[1], xIBGE[n])
 	e2_ibge = e2_ibge + abs(yIBGE[n]-aux)
 	res2_ibge.append(aux)
 
@@ -109,15 +119,17 @@ plt.plot(xIBGE,yIBGE,'ro')
 #d
 e1_ibge = e1_ibge ** 2
 e2_ibge = e2_ibge ** 2
-
+'''
 if e1_ibge < e2_ibge:
 	plt.plot(res1_ibge)
 	plt.title('Polinomio grau 2')
 	plt.show()
+
 else:
-	plt.plot(res2_ibge)
-	plt.title('Exponencial')
-	plt.show()
+'''
+plt.plot(xIBGE, res2_ibge)
+plt.title('Exponencial')
+plt.show()
 
 #e
 print("Dados estimados em funcao de 2o grau:")
@@ -126,10 +138,10 @@ print("2005: %f" %polinomio_teste(deltas_ibge, xIBGE, yIBGE, 2, 2005))
 print("2014: %f" %polinomio_teste(deltas_ibge, xIBGE, yIBGE, 2, 2014))
 
 print("Dados estimados em funcao exponencial:")
-print("2000: %f" %calculo_exponencial(a0, a1, 2000))
+print("2000: %f" %calculo_exponencial(X[0], X[1], 2000))
 print("2005: %f" %calculo_exponencial(a0, a1, 2005))
 print("2014: %f" %calculo_exponencial(a0, a1, 2014))
-
+'''
 #Questao 2:
 
 #a
@@ -247,3 +259,4 @@ else:
 	#d
 	print("Peso estimado em 20 dias: %f" %polinomio_teste(deltas, xEmbriao, yEmbriao, 5, 20))
  
+'''
