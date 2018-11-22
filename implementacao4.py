@@ -55,6 +55,9 @@ def mmq (vetorX, vetorY, grau):
 	sumX_5 = 0.0 #x^5
 	sumX_6 = 0.0 #x^6
 	sumX_7 = 0.0 #x^7
+	sumX_8 = 0.0 #x^8
+	sumX_9 = 0.0 #x^9
+	sumX_10 = 0.0 #x^10
 	sumY_2 = 0.0#y^2
 
 	for i in range (tamVetor):
@@ -65,6 +68,9 @@ def mmq (vetorX, vetorY, grau):
 		sumX_5 = sumX_5 + (vetorX[i]**5)
 		sumX_6 = sumX_6 + (vetorX[i]**6)
 		sumX_7 = sumX_7 + (vetorX[i]**7)
+		sumX_8 = sumX_8 + (vetorX[i]**8)
+		sumX_9 = sumX_9 + (vetorX[i]**9)
+		sumX_10 = sumX_10 + (vetorX[i]**10)
 		sumB =  sumB + vetorY[i]
 		sumY_2 = sumY_2 + (vetorY[i]**2)
 		sumX_Y =  sumX_Y + (vetorY[i]* vetorX[i])
@@ -80,23 +86,56 @@ def mmq (vetorX, vetorY, grau):
 		A_inversa = np.linalg.inv(A)
 		#X = a0, a1
 		X = np.dot(A_inversa, Y)
-		print X
-	elif grau == 2:
 
+	elif grau == 2:
 		A = np.array([[tamVetor, sumA, sumX_2],
 					[sumA, sumX_2, sumX_3],
 					[sumX_2, sumX_3, sumX_4]])
+
 		Y = np.array([sumB, sumX_Y, sumX2_Y])
+
+
 		A_inversa = np.linalg.inv(A)
 		#X = a0, a1, a2
 		X = np.dot(A_inversa, Y)
-		
 	elif grau == 3:
-		return 0
+		A = np.array([[tamVetor, sumA, sumX_2, sumX_3],
+					[sumA, sumX_2, sumX_3, sumX_4],
+					[sumX_2, sumX_3, sumX_4, sumX_5],
+					[sumX_3, sumX_4, sumX_5, sumX_6]])
+
+		Y = np.array([sumB, sumX_Y, sumX2_Y, sumX3_Y])
+
+		A_inversa = np.linalg.inv(A)
+		#X = a0, a1, a2, a3
+		X = np.dot(A_inversa, Y)
+
 	elif grau == 4:
-		return 0
+		A = np.array([[tamVetor, sumA, sumX_2, sumX_3, sumX_4],
+					[sumA, sumX_2, sumX_3, sumX_4, sumX_5],
+					[sumX_2, sumX_3, sumX_4, sumX_5, sumX_6],
+					[sumX_3, sumX_4, sumX_5, sumX_6, sumX_7],
+					[sumX_4, sumX_5, sumX_6, sumX_7, sumX_8]])
+		Y = np.array([sumB, sumX_Y, sumX2_Y, sumX3_Y, sumX4_Y])
+
+		A_inversa = np.linalg.inv(A)
+
+		#X = a0, a1, a2, a3, a4
+		X = np.dot(A_inversa, Y)
 	elif grau == 5:
-		return  0
+		A = np.array([[tamVetor, sumA, sumX_2, sumX_3, sumX_4, sumX_5],
+					[sumA, sumX_2, sumX_3, sumX_4, sumX_5, sumX_6],
+					[sumX_2, sumX_3, sumX_4, sumX_5, sumX_6, sumX_7],
+					[sumX_3, sumX_4, sumX_5, sumX_6, sumX_7, sumX_8],
+					[sumX_4, sumX_5, sumX_6, sumX_7, sumX_8, sumX_9],
+					[sumX_5, sumX_6, sumX_7, sumX_8, sumX_9, sumX_10]])
+
+		Y = np.array([sumB, sumX_Y, sumX2_Y, sumX3_Y, sumX4_Y, sumX5_Y])
+		
+		#X = a0, a1, a2, a3, a4, a5
+		A_inversa = np.linalg.inv(A)
+		X = np.dot(A_inversa, Y)
+
 	else:
 		print("Grau indefinido!")
 		exit(1)
@@ -105,13 +144,14 @@ def mmq (vetorX, vetorY, grau):
 def calculo_exponencial(a0, a1, x):
 	return a0*np.exp(a1*x)
 
+
 def polinomial(a0, a1, a2, a3 , a4, a5, x, grau):
-	if grau==0:
+	if grau == 0:
 		return a0
 	elif grau==1:
 		return a0+ a1*x
 	elif grau ==2:
-		return a0+ a1*x + a2*(x**2)
+		return a0 + a1*x + a2*(x**2)
 	elif grau ==3:
 		return a0+ a1*x + a2*(x**2) + a3*(x**3)
 	elif grau ==4:
@@ -140,24 +180,22 @@ plt.show()
 e1_ibge = 0.0
 res1_ibge = []
 
-X = mmq(xIBGE, yIBGE, 2)
+X_b = mmq(xIBGE, yIBGE, 2)
 
 #dados para o grafico
 for n in range(nIBGE):
-	aux = polinomial(X[0], X[1], X[2], 0, 0, 0, xIBGE[n], 2)
+	aux = polinomial(X_b[0], X_b[1], X_b[2], 0, 0, 0, xIBGE[n], 2)
 	e1_ibge = e1_ibge + abs(yIBGE[n]-aux)
 	res1_ibge.append(aux)
 
 #c
-
-
 e2_ibge = 0.0
 res2_ibge = []
 
-X = mmq_exp(xIBGE, yIBGE)
+X_c = mmq_exp(xIBGE, yIBGE)
 #dados para o grafico
 for n in range(nIBGE):
-	aux = calculo_exponencial(X[0], X[1], xIBGE[n])
+	aux = calculo_exponencial(X_c[0], X_c[1], xIBGE[n])
 	e2_ibge = e2_ibge + abs(yIBGE[n]-aux)
 	res2_ibge.append(aux)
 
@@ -182,15 +220,16 @@ else:
 #e
 
 print("Dados estimados em funcao de 2o grau:")
-print("2000: %f" %polinomial(X[0], X[1], X[2], 0, 0, 0, 2000, 2))
-print("2005: %f" %polinomial(X[0], X[1], X[2], 0, 0, 0, 2005, 2))
-print("2014: %f" %polinomial(X[0], X[1], X[2], 0, 0, 0, 2014, 2))
+print("2000: %f" %polinomial(X_b[0], X_b[1], X_b[2], 0, 0, 0, 2000, 2))
+print("2005: %f" %polinomial(X_b[0], X_b[1], X_b[2], 0, 0, 0, 2005, 2))
+print("2014: %f" %polinomial(X_b[0], X_b[1], X_b[2], 0, 0, 0, 2014, 2))
 
 print("Dados estimados em funcao exponencial:")
-print("2000: %f" %calculo_exponencial(X[0], X[1], 2000))
-print("2005: %f" %calculo_exponencial(X[0], X[1], 2005))
-print("2014: %f" %calculo_exponencial(X[0], X[1], 2014))
-'''
+print("2000: %f" %calculo_exponencial(X_c[0], X_c[1], 2000))
+print("2005: %f" %calculo_exponencial(X_c[0], X_c[1], 2005))
+print("2014: %f" %calculo_exponencial(X_c[0], X_c[1], 2014))
+
+
 #Questao 2:
 
 #a
@@ -201,22 +240,11 @@ plt.show()
 
 
 #b
-d1=[]
-delta(xEmbriao, yEmbriao, d1)
-
-d2=[]
-delta(xEmbriao, d1, d2)
-
-d3=[]
-delta(xEmbriao, d2, d3)
-
-d4=[]
-delta(xEmbriao, d3, d4)
-
-d5=(d4[1]-d4[0])/(xEmbriao[5]-xEmbriao[0])
-
-deltas = [d1[0], d2[0], d3[0], d4[0], d5]
-
+X_1 = mmq(xEmbriao, yEmbriao, 1)
+X_2 = mmq(xEmbriao, yEmbriao, 2)
+X_3 = mmq (xEmbriao, yEmbriao, 3)
+X_4 = mmq (xEmbriao, yEmbriao, 4)
+X_5 = mmq (xEmbriao, yEmbriao, 5)
 #c
 
 e1=0
@@ -233,32 +261,34 @@ res5=[]
 #n=xEmbriao
 n = 0
 for n in range(nEmbriao):
-	aux = polinomio_teste(deltas, xEmbriao, yEmbriao, 1, xEmbriao[n])
+	aux = polinomial(X_1[0], X_1[1], 0, 0, 0, 0, xIBGE[n], 1)
 	e1=e1+ abs(yEmbriao[n]-aux)
 	res1.append(aux)
 
-	aux = polinomio_teste(deltas, xEmbriao, yEmbriao, 2, xEmbriao[n])
+	aux = polinomial(X_2[0], X_2[1], X_2[2], 0, 0, 0, xIBGE[n], 2)
 	e2=e2+ abs(yEmbriao[n]-aux)
 	res2.append(aux)
 
-	aux = polinomio_teste(deltas, xEmbriao, yEmbriao, 3, xEmbriao[n])
+	aux = polinomial(X_3[0], X_3[1], X_3[2], X_3[3], 0, 0, xIBGE[n], 3)
 	e3=e3+ abs(yEmbriao[n]-aux)
 	res3.append(aux)
 
-	aux = polinomio_teste(deltas, xEmbriao, yEmbriao, 4, xEmbriao[n])
+	aux = polinomial(X_4[0], X_4[1], X_4[2], X_4[3], X_4[4], 0, xIBGE[n], 4)
 	e4=e4+ abs(yEmbriao[n]-aux)
 	res4.append(aux)
 
-	aux = polinomio_teste(deltas, xEmbriao, yEmbriao, 5, xEmbriao[n])
+	aux = polinomial(X_5[0], X_5[1], X_5[2], X_5[3], X_5[4], X_5[5], xIBGE[n], 5)
 	e5=e5+ abs(yEmbriao[n]-aux)
 	res5.append(aux)
 	
 	
-e1=e1*e1
-e2=e2*e2
-e3=e3*e3
-e4=e4*e4
-e5=e5*e5
+e1=e1**2
+e2=e2**2
+e3=e3**2
+e4=e4**2
+e5=e5**2
+
+
 
 plt.plot(xEmbriao,yEmbriao,'ro')
 
@@ -270,7 +300,7 @@ if e1<e2 and e1<e3 and e1<e4 and e1<e5:
 	plt.show()
 	
 	#d
-	print("Peso estimado em 20 dias: %f" %polinomio_teste(deltas, xEmbriao, yEmbriao, 1, 20))
+	print("Peso estimado em 20 dias: %f" %polinomial(X_1[0], X_1[1], 0, 0, 0, 0, 20, 1))
 		
 elif e2<e1 and e2<e3 and e2<e4 and e2<e5:
 	#escolhido=2
@@ -279,7 +309,7 @@ elif e2<e1 and e2<e3 and e2<e4 and e2<e5:
 	plt.show()
 	
 	#d
-	print("Peso estimado em 20 dias: %f" %polinomio_teste(deltas, xEmbriao, yEmbriao, 2, 20))
+	print("Peso estimado em 20 dias: %f" %polinomial(X_2[0], X_2[1], X_2[2], 0, 0, 0, 20, 2))
 	
 elif e3<e1 and e3<e2 and e3<e4 and e3<e5:
 	#escolhido=3
@@ -288,7 +318,7 @@ elif e3<e1 and e3<e2 and e3<e4 and e3<e5:
 	plt.show()
 	
 	#d
-	print("Peso estimado em 20 dias: %f" %polinomio_teste(deltas, xEmbriao, yEmbriao, 3, 20))
+	print("Peso estimado em 20 dias: %f" %polinomial(X_3[0], X_3[1], X_3[2], X_3[3], 0, 0, 20, 3))
 	
 elif e4<e1 and e4<e2 and e4<e3 and e4<e5:
 	#escolhido=4
@@ -297,7 +327,7 @@ elif e4<e1 and e4<e2 and e4<e3 and e4<e5:
 	plt.show()
 	
 	#d
-	print("Peso estimado em 20 dias: %f" %polinomio_teste(deltas, xEmbriao, yEmbriao, 4, 20))
+	print("Peso estimado em 20 dias: %f" %polinomial(X_4[0], X_4[1], X_4[2], X_4[3], X_4[4], 0, 20, 4))
 	
 else:
 	#escolhido=5
@@ -306,6 +336,4 @@ else:
 	plt.show()
 	
 	#d
-	print("Peso estimado em 20 dias: %f" %polinomio_teste(deltas, xEmbriao, yEmbriao, 5, 20))
- 
-'''
+	print("Peso estimado em 20 dias: %f" %polinomial(X_5[0], X_5[1], X_5[2], X_5[3], X_5[4], X_5[5], 20, 5))
